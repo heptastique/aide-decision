@@ -48,6 +48,8 @@ figure('numbertitle','off','name','Responsable atelier');
 subplot(1,2,1);
 plot(histoBenef);
 title('En fonction du bénéfice');
+xlabel('Pourcentage du bénéfice');
+ylabel('Stock');
 hold on;
 plot(100*diff(diff(histoBenef)))
 
@@ -60,6 +62,8 @@ hold off;
 subplot(1,2,2);
 plot(histoProd);
 title('En fonction de la production');
+xlabel('Pourcentage de la production');
+ylabel('Stock');
 hold on;
 plot(100*diff(diff(histoProd)))
 
@@ -104,8 +108,10 @@ figure('numbertitle','off','name','Responsable du personnel');
 subplot(1,2,1);
 plot(histoBenef);
 title('En fonction du bénéfice');
+xlabel('Pourcentage du bénéfice');
+ylabel('Temps sur machines 1 et 3 (en minutes)');
 hold on;
-plot(10*diff(diff(histoBenef)))
+plot(50*diff(diff(histoBenef)))
 
 dd = zeros(98, 2);
 dd(:,1) = diff(diff(histoBenef));
@@ -116,8 +122,10 @@ hold off;
 subplot(1,2,2);
 plot(histoProd);
 title('En fonction de la production');
+xlabel('Pourcentage de la production');
+ylabel('Temps sur machines 1 et 3 (en minutes)');
 hold on;
-plot(10*diff(diff(histoProd)))
+plot(20*diff(diff(histoProd)))
 
 dd = zeros(98, 2);
 dd(:,1) = diff(diff(histoProd));
@@ -128,3 +136,54 @@ hold off;
 %*************************************************************************%
 %*************************************************************************%
 
+% Le responsable commercial veut équilibrer les deux familles
+% Deux approches 
+% - La premiere en fonction du bénéfice
+% - la deuxième en fonction de la production
+
+% Initialisations de vecteurs.
+histoBenef = zeros(10,1);
+histoProd = zeros(10,1);
+
+for k = 0:5:50
+    bCom = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k k];
+    
+    % Premiere approche
+    [~, benefMax] = linprog(fComptable, contCom, bCom, [], [], lb, ub, [], options);
+    histoBenef((k/5)+1, 1) = benefMax*-1;
+    
+    % Deuxième approche
+    [~, prodMax] = linprog(fResponsableAtelier, contCom, bCom, [], [], lb, ub, [], options);
+    histoProd((k/5)+1, 1) = prodMax*-1;
+end
+
+% Affichage, abcisse différence entre famille, ordonnée bénéfice puis stock
+% (en minutes)
+figure('numbertitle','off','name','Responsable commerciale');
+
+subplot(1,2,1);
+plot(histoBenef);
+title('En fonction du bénéfice');
+xlabel('Différence entre les familles');
+ylabel('Bénéfice');
+% hold on;
+% plot(50*diff(diff(histoBenef)))
+% dd = zeros(98, 2);
+% dd(:,1) = diff(diff(histoBenef));
+% dd(:,2) = 2:99;
+% sort(dd, 1);
+% hold off;
+
+subplot(1,2,2);
+plot(histoProd);
+title('En fonction de la production');
+xlabel('Différence entre les familles');
+ylabel('Stock');
+% hold on;
+% plot(20*diff(diff(histoProd)))
+% 
+% dd = zeros(98, 2);
+% dd(:,1) = diff(diff(histoProd));
+% dd(:,2) = 2:99;
+% sort(dd, 1);
+% hold off;
