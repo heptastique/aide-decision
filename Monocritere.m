@@ -4,7 +4,7 @@ fComptable = -1*[919/60; 13; 1048/60; 19.5; 1376/60; 8.75];
 
 fResponsableAtelier = -1*[1;1;1;1;1;1];
 
-fResponsableStocks = [1; 1; 1; 1; 1; 1];
+fResponsableStocks = [5; 6; 4; 6; 6; 4];
 
 lb = [0 0 0 0 0 0];
 ub = [9999 9999 9999 9999 9999 9999];
@@ -35,4 +35,8 @@ dd = zeros(98, 2);
 dd(:,1) = diff(diff(histoStock));
 dd(:,2) = 2:99;
 
-sortrows(dd, 1)
+sort(dd, 1);
+
+bProd = [4800 4800 4800 4800 4800 4800 4800 850 920 585 0.95*benefMax];   
+[xProd, prod] = linprog(fResponsableStocks, contBenef, bProd, [], [], lb, ub)
+sum(xProd)
