@@ -26,4 +26,13 @@ for k = 1:100
     histoProd(k, 1) = prod;
 end
 
-plot(histoStock)
+plot(histoStock);
+hold on;
+plot(100*diff(diff(histoStock)))
+
+dd = zeros(98, 2);
+
+dd(:,1) = diff(diff(histoStock));
+dd(:,2) = 2:99;
+
+sortrows(dd, 1)
