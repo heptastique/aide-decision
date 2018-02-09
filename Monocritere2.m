@@ -15,6 +15,7 @@ ub = [9999 9999 9999 9999 9999 9999];
 histoStock = zeros(100,1);
 histoProd = zeros(100,1);
 
+fResponsablePersonnel = [16; 6; 11; 5; 10; 5];
 for k = 1:100
     bStock = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*benefMax/100];
     bProd = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*prodMax/100];

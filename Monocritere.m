@@ -37,6 +37,6 @@ dd(:,2) = 2:99;
 
 sort(dd, 1);
 
-bProd = [4800 4800 4800 4800 4800 4800 4800 850 920 585 0.95*benefMax];   
-[xProd, prod] = linprog(fResponsableStocks, contBenef, bProd, [], [], lb, ub)
-sum(xProd)
+%bProd = [4800 4800 4800 4800 4800 4800 4800 850 920 585 0.95*benefMax];   
+%[xProd, prod] = linprog(fResponsableStocks, contBenef, bProd, [], [], lb, ub)
+%sum(xProd)

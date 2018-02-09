@@ -42,7 +42,7 @@ for k = 1:100
     histoProd(k, 1) = prod;
 end
 
-% Affichage
+% Affichage, abcisse pourcentage, ordonnée stock
 figure('numbertitle','off','name','Responsable atelier');
 
 subplot(1,2,1);
@@ -88,23 +88,24 @@ for k = 1:100
     
     % Premiere approche
     bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*benefMax/100];
-    [xBenef, benef] = linprog(fResponsableAtelier, contBenef, bBenef, [], [], lb, ub, [], options);
+    [xBenef, benef] = linprog(fResponsablePersonnel, contBenef, bBenef, [], [], lb, ub, [], options);
     histoBenef(k, 1) = benef;
     
     % Deuxième approche
     bProd = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*prodMax/100];
-    [xProd, prod] = linprog(fResponsableAtelier, contProd, bProd, [], [], lb, ub, [], options);
+    [xProd, prod] = linprog(fResponsablePersonnel, contProd, bProd, [], [], lb, ub, [], options);
     histoProd(k, 1) = prod;
 end
 
-% Affichage
+% Affichage, abcisse pourcentage, ordonnée temps d'utilisation machine
+% (en minutes)
 figure('numbertitle','off','name','Responsable du personnel');
 
 subplot(1,2,1);
 plot(histoBenef);
 title('En fonction du bénéfice');
 hold on;
-plot(100*diff(diff(histoBenef)))
+plot(10*diff(diff(histoBenef)))
 
 dd = zeros(98, 2);
 dd(:,1) = diff(diff(histoBenef));
@@ -116,10 +117,14 @@ subplot(1,2,2);
 plot(histoProd);
 title('En fonction de la production');
 hold on;
-plot(100*diff(diff(histoProd)))
+plot(10*diff(diff(histoProd)))
 
 dd = zeros(98, 2);
 dd(:,1) = diff(diff(histoProd));
 dd(:,2) = 2:99;
 sort(dd, 1);
 hold off;
+
+%*************************************************************************%
+%*************************************************************************%
+
