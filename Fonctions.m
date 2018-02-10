@@ -166,24 +166,25 @@ plot(histoBenef);
 title('En fonction du bénéfice');
 xlabel('Différence entre les familles');
 ylabel('Bénéfice');
-% hold on;
-% plot(50*diff(diff(histoBenef)))
-% dd = zeros(98, 2);
-% dd(:,1) = diff(diff(histoBenef));
-% dd(:,2) = 2:99;
-% sort(dd, 1);
-% hold off;
+
+hold on;
+plot(10*diff(diff(histoBenef)) + 10050);
+dd = zeros(9, 2);
+dd(:,1) = diff(diff(histoBenef))
+dd(:,2) = 1:9;
+sort(dd, 1);
+hold off;
 
 subplot(1,2,2);
 plot(histoProd);
 title('En fonction de la production');
 xlabel('Différence entre les familles');
 ylabel('Stock');
-% hold on;
-% plot(20*diff(diff(histoProd)))
-% 
-% dd = zeros(98, 2);
-% dd(:,1) = diff(diff(histoProd));
-% dd(:,2) = 2:99;
-% sort(dd, 1);
-% hold off;
+
+hold on;
+plot(10*diff(diff(histoProd)) + 616)
+dd = zeros(9, 2);
+dd(:,1) = diff(diff(histoProd));
+dd(:,2) = 1:9;
+sort(dd, 1);
+hold off;
