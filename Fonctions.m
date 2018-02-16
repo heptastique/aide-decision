@@ -2,8 +2,9 @@ import Constantes.*;
 
 % Recherche du bénifice maximal en fonctions des contraints 'cont' 
 % et du maximum possible 'b'.
-fComptable = -1*[919/60; 13; 1048/60; 19.5; 1376/60; 8.75];
-[~, benefMax] = linprog(fComptable, cont, b, [], [], lb, ub, [], options);
+fComptable = -1*[859/60; 13; 1048/60; 19.5; 1376/60; 8.75];
+[x, benefMax] = linprog(fComptable, cont, b, [], [], lb, ub, [], options);
+x
 fprintf('Le benefice maximal est de %d.\n',-benefMax);
 
 % Recherche de la production maximale en fonctions des contraints 'cont' 
@@ -43,7 +44,7 @@ for k = 1:100
 end
 
 % Affichage, abcisse pourcentage, ordonnée stock
-figure('numbertitle','off','name','Responsable atelier');
+figure('numbertitle','off','name','Responsable des stocks');
 
 subplot(1,2,1);
 plot(histoBenef);
@@ -159,7 +160,7 @@ end
 
 % Affichage, abcisse différence entre famille, ordonnée bénéfice puis stock
 % (en minutes)
-figure('numbertitle','off','name','Responsable commerciale');
+figure('numbertitle','off','name','Responsable commercial');
 
 subplot(1,2,1);
 plot(histoBenef);
