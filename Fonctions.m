@@ -5,6 +5,7 @@ import Constantes.*;
 fComptable = -1*[859/60; 13; 1048/60; 19.5; 1376/60; 8.75];
 [x, benefMax] = linprog(fComptable, cont, b, [], [], lb, ub, [], options);
 x
+sum(x)
 fprintf('Le benefice maximal est de %d.\n',-benefMax);
 
 % Recherche de la production maximale en fonctions des contraints 'cont' 
@@ -42,6 +43,10 @@ for k = 1:100
     [xProd, prod] = linprog(fResponsableStocks, contProd, bProd, [], [], lb, ub, [], options);
     histoProd(k, 1) = prod;
 end
+
+% Fonction responsable commercial
+
+fResponsableCommercial = [1; 1; 1; -1; -1; -1];
 
 % Affichage, abcisse pourcentage, ordonnée stock
 figure('numbertitle','off','name','Responsable des stocks');
