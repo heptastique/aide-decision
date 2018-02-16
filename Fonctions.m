@@ -3,14 +3,19 @@ import Constantes.*;
 % Recherche du bénifice maximal en fonctions des contraints 'cont' 
 % et du maximum possible 'b'.
 fComptable = -1*[859/60; 13; 1048/60; 19.5; 1376/60; 8.75];
-[x, benefMax] = linprog(fComptable, cont, b, [], [], lb, ub, [], options);
-x
+[xCompta, benefMax] = linprog(fComptable, cont, b, [], [], lb, ub, [], options);
+fprintf('cas comptable')
+fprintf('produit comptable')
+xCompta
 fprintf('Le benefice maximal est de %d.\n',-benefMax);
 
 % Recherche de la production maximale en fonctions des contraints 'cont' 
 % et du maximum possible 'b'.
 fResponsableAtelier = -1*[1;1;1;1;1;1];
-[~, prodMax] = linprog(fResponsableAtelier, cont, b, [], [], lb, ub, [], options);
+[xAtelier, prodMax] = linprog(fResponsableAtelier, cont, b, [], [], lb, ub, [], options);
+fprintf('cas resp atelier')
+fprintf('produit resp atelier')
+xAtelier
 fprintf('La production maximale est de %d.\n',-prodMax);
 
 
@@ -34,7 +39,7 @@ for k = 1:100
     
     % Premiere approche
     bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*benefMax/100];
-    [xBenef, benef] = linprog(fResponsableStocks, contBenef, bBenef, [], [], lb, ub, [], options);
+    [xStock, benef] = linprog(fResponsableStocks, contBenef, bBenef, [], [], lb, ub, [], options);
     histoBenef(k, 1) = benef;
     
     % Deuxième approche
@@ -93,7 +98,7 @@ for k = 1:100
     
     % Premiere approche
     bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*benefMax/100];
-    [xBenef, benef] = linprog(fResponsablePersonnel, contBenef, bBenef, [], [], lb, ub, [], options);
+    [xStock, benef] = linprog(fResponsablePersonnel, contBenef, bBenef, [], [], lb, ub, [], options);
     histoBenef(k, 1) = benef;
     
     % Deuxième approche
@@ -189,3 +194,27 @@ dd(:,1) = diff(diff(histoProd));
 dd(:,2) = 1:9;
 sort(dd, 1);
 hold off;
+
+
+fResponsableStocks;
+bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 85*benefMax/100];
+[xStock, benef] = linprog(fResponsableStocks, contBenef, bBenef, [], [], lb, ub, [], options);
+fprintf('cas resp stock')
+fprintf('produit resp stock')
+xStock
+resCalc = transpose(xStock)*fResponsableStocks; % et oui c'est pas beau
+fprintf('Les stocks sont de %d.\n',resCalc);
+fprintf('cas resp personnel')
+bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 85*benefMax/100];
+[xPersonnel, benef] = linprog(fResponsablePersonnel, contBenef, bBenef, [], [], lb, ub, [], options);
+histoBenef(k, 1) = benef;
+fprintf('produit resp personnel')
+xPersonnel
+heureMachine1et3 = ( 8*2* xPersonnel(1) + (5+1)* xPersonnel(2) + 11 * xPersonnel(3) + 5 * xPersonnel(4) + 10* xPersonnel(5) + 5 * xPersonnel(6));
+fprintf('L utilisation de 1 et 3 est de %d.\n',heureMachine1et3);
+bCom = [4800 4800 4800 4800 4800 4800 4800 850 920 585 0 0];
+[xCom, benefMax] = linprog(fComptable, contCom, bCom, [], [], lb, ub, [], options);
+fprintf('cas com')
+fprintf('produit com')
+xCom
+fprintf('Quantité de de la famille A %d.\n',xCom(1)+ xCom(2) +xCom(3));
