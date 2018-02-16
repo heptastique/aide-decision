@@ -1,10 +1,10 @@
 import Constantes.*;
+warning off;
 
 % Recherche du bénifice maximal en fonctions des contraints 'cont' 
 % et du maximum possible 'b'.
 fComptable = -1*[859/60; 13; 1048/60; 19.5; 1376/60; 8.75];
-[x, benefMax] = linprog(fComptable, cont, b, [], [], lb, ub, [], options);
-x
+[x, benefMax] = linprog(fComptable, cont, b, [], [], lb, ub, [], options)
 fprintf('Le benefice maximal est de %d.\n',-benefMax);
 
 % Recherche de la production maximale en fonctions des contraints 'cont' 
@@ -30,18 +30,18 @@ fResponsableStocks = [5; 6; 4; 6; 6; 4];
 histoBenef = zeros(100,1);
 histoProd = zeros(100,1);
 
-for k = 1:100
-    
-    % Premiere approche
-    bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*benefMax/100];
-    [xBenef, benef] = linprog(fResponsableStocks, contBenef, bBenef, [], [], lb, ub, [], options);
-    histoBenef(k, 1) = benef;
-    
-    % Deuxième approche
-    bProd = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*prodMax/100];
-    [xProd, prod] = linprog(fResponsableStocks, contProd, bProd, [], [], lb, ub, [], options);
-    histoProd(k, 1) = prod;
-end
+% for k = 1:100
+%     
+%     % Premiere approche
+%     bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*benefMax/100];
+%     [xBenef, benef] = linprog(fResponsableStocks, contBenef, bBenef, [], [], lb, ub, [], options);
+%     histoBenef(k, 1) = benef;
+%     
+%     % Deuxième approche
+%     bProd = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*prodMax/100];
+%     [xProd, prod] = linprog(fResponsableStocks, contProd, bProd, [], [], lb, ub, [], options);
+%     histoProd(k, 1) = prod;
+% end
 
 % Affichage, abcisse pourcentage, ordonnée stock
 figure('numbertitle','off','name','Responsable des stocks');
@@ -89,18 +89,23 @@ fResponsablePersonnel = [16; 6; 11; 5; 10; 5];
 histoBenef = zeros(100,1);
 histoProd = zeros(100,1);
 
-for k = 1:100
-    
-    % Premiere approche
-    bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*benefMax/100];
-    [xBenef, benef] = linprog(fResponsablePersonnel, contBenef, bBenef, [], [], lb, ub, [], options);
-    histoBenef(k, 1) = benef;
-    
-    % Deuxième approche
-    bProd = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*prodMax/100];
-    [xProd, prod] = linprog(fResponsablePersonnel, contProd, bProd, [], [], lb, ub, [], options);
-    histoProd(k, 1) = prod;
-end
+% for k = 1:100
+%     
+%     % Premiere approche
+%     bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*benefMax/100];
+%     [xBenef, benef] = linprog(fResponsablePersonnel, contBenef, bBenef, [], [], lb, ub, [], options);
+%     histoBenef(k, 1) = benef;
+%     
+%     % Deuxième approche
+%     bProd = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k*prodMax/100];
+%     [xProd, prod] = linprog(fResponsablePersonnel, contProd, bProd, [], [], lb, ub, [], options);
+%     histoProd(k, 1) = prod;
+% end
+
+bBenef = [4800 4800 4800 4800 4800 4800 4800 850 920 585 0.85*benefMax];   
+[tuy, prod] = linprog(fResponsablePersonnel, contBenef, bBenef, [], [], lb, ub);
+
+tuy
 
 % Affichage, abcisse pourcentage, ordonnée temps d'utilisation machine
 % (en minutes)
@@ -146,21 +151,27 @@ hold off;
 histoBenef = zeros(10,1);
 histoProd = zeros(10,1);
 
-for k = 0:5:50
-    bCom = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k k];
-    
-    % Premiere approche
-    [~, benefMax] = linprog(fComptable, contCom, bCom, [], [], lb, ub, [], options);
-    histoBenef((k/5)+1, 1) = benefMax*-1;
-    
-    % Deuxième approche
-    [~, prodMax] = linprog(fResponsableAtelier, contCom, bCom, [], [], lb, ub, [], options);
-    histoProd((k/5)+1, 1) = prodMax*-1;
-end
+% for k = 0:5:50
+%     bCom = [4800 4800 4800 4800 4800 4800 4800 850 920 585 k k];
+%     
+%     % Premiere approche
+%     [~, benefMax] = linprog(fComptable, contCom, bCom, [], [], lb, ub, [], options);
+%     histoBenef((k/5)+1, 1) = benefMax*-1;
+%     
+%     % Deuxième approche
+%     [~, prodMax] = linprog(fResponsableAtelier, contCom, bCom, [], [], lb, ub, [], options);
+%     histoProd((k/5)+1, 1) = prodMax*-1;
+% end
 
 % Affichage, abcisse différence entre famille, ordonnée bénéfice puis stock
 % (en minutes)
 figure('numbertitle','off','name','Responsable commercial');
+
+bCom = [4800 4800 4800 4800 4800 4800 4800 850 920 585 0 0];   
+[tuy, benefMax] = linprog(fComptable, contCom, bCom, [], [], lb, ub);
+
+tuy
+benefMax
 
 subplot(1,2,1);
 plot(histoBenef);
@@ -171,7 +182,7 @@ ylabel('Bénéfice');
 hold on;
 plot(10*diff(diff(histoBenef)) + 10050);
 dd = zeros(9, 2);
-dd(:,1) = diff(diff(histoBenef))
+dd(:,1) = diff(diff(histoBenef));
 dd(:,2) = 1:9;
 sort(dd, 1);
 hold off;
