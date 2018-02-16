@@ -27,14 +27,36 @@ contCom3 = [ contCom2; ftemp2 ];
 bCom3 = [bCom2 2651.012];
 [xCom3, benefMax] = linprog(fComptable, contCom3, bCom3, [], [], lb, ub, [], options);
 %
+bBenefStock2 = [4800 4800 4800 4800 4800 4800 4800 850 920 585 95*-10004.95/100];
+[xStock2, benef] = linprog(fResponsableStocks, contBenef, bBenefStock2, [], [], lb, ub, [], options);
+%
+ftemp = transpose(fResPerso);
+contBenef3 = [ contBenef; ftemp ];
+bBenefStock3 = [bBenefStock2 5057.13];
+[xStock3, benef] = linprog(fResponsableStocks, contBenef3, bBenefStock3, [], [], lb, ub, [], options);
+%
+bBenef90 = [4800 4800 4800 4800 4800 4800 4800 850 920 585 90*-10004.95/100];
+[xStock90, benef] = linprog(fResponsableStocks, contBenef, bBenef90, [], [], lb, ub, [], options);
+%
+bBenefPers2 = [4800 4800 4800 4800 4800 4800 4800 850 920 585 95*-10004.95/100];
+[xPers2, benef] = linprog(fResPerso, contBenef, bBenefPers2, [], [], lb, ub, [], options);
+%
+bBenefPers3 = [4800 4800 4800 4800 4800 4800 4800 850 920 585 90*-10004.95/100];
+[xPers3, benef] = linprog(fResPerso, contBenef, bBenefPers3, [], [], lb, ub, [], options);
+%
 % pasage de colonne à ligne
 xCom2 = transpose (xCom2);
 xCom3 = transpose (xCom3);
+xStock2 = transpose (xStock2);
+xStock3 = transpose (xStock3);
+xStock90 = transpose (xStock90);
+xPers2 = transpose (xPers2);
+xPers3 = transpose (xPers3);
 
 % le calcul du gain
-xTousPoints = [ xCompta; xAtelier; xStock; xPersonnel; xCom; xCom2; xCom3];
+xTousPoints = [ xCompta; xAtelier; xStock; xPersonnel; xCom; xCom2; xCom3; xStock2; xStock3; xStock90; xPers2; xPers3];
 fCritere = [ -fComptable -fResponsableAtelier fResponsableStocks fResPerso fCom];
-gain = xTousPoints * fCritere
+gain = xTousPoints * fCritere;
 gainPercent = gain;
 for k = 1:1:2
     gainPercent(:,k) = gain(:,k)/gain(k,k)*100;
