@@ -17,33 +17,42 @@ xCom = [ 96.6445 39.6445 157.3934 0 193.9810 99.7014];
 
 % point ajoutés
 % desc point
+% 6 - Optimisation commercial, avec contrainte sur temps machine 
 ftemp = transpose(fResPerso);
 contCom2 = [ contCom; ftemp ];
 bCom2 = [4800 4800 4800 4800 4800 4800 4800 850 920 585 0 0 5057.13];
 [xCom2, benefMax] = linprog(fComptable, contCom2, bCom2, [], [], lb, ub, [], options);
-%
+
+% 7 - Optimisation commercial, avec contraintes sur temps machie et sur stock
 ftemp2 = transpose(fResponsableStocks);
 contCom3 = [ contCom2; ftemp2 ];
 bCom3 = [bCom2 2651.012];
 [xCom3, benefMax] = linprog(fComptable, contCom3, bCom3, [], [], lb, ub, [], options);
-%
+
+% 8 - Optimisation responsable des stocks avec contrainte sur benef
 bBenefStock2 = [4800 4800 4800 4800 4800 4800 4800 850 920 585 95*-10004.95/100];
 [xStock2, benef] = linprog(fResponsableStocks, contBenef, bBenefStock2, [], [], lb, ub, [], options);
-%
+
+% 9 - Optimisation responsable des stocks avec contraintes sur benef et temps
+% machine
 ftemp = transpose(fResPerso);
 contBenef3 = [ contBenef; ftemp ];
 bBenefStock3 = [bBenefStock2 5057.13];
 [xStock3, benef] = linprog(fResponsableStocks, contBenef3, bBenefStock3, [], [], lb, ub, [], options);
-%
+
+% 10 - Optimisation responsable des stocks avec contrainte sur benef plus petite
 bBenef90 = [4800 4800 4800 4800 4800 4800 4800 850 920 585 90*-10004.95/100];
 [xStock90, benef] = linprog(fResponsableStocks, contBenef, bBenef90, [], [], lb, ub, [], options);
-%
+
+% 11 - Optimisation responsable personnel avec contrainte sur benef
 bBenefPers2 = [4800 4800 4800 4800 4800 4800 4800 850 920 585 95*-10004.95/100];
 [xPers2, benef] = linprog(fResPerso, contBenef, bBenefPers2, [], [], lb, ub, [], options);
-%
+
+% 12 - Optimisation responsable personnel avec contrainte sur benef plus petite
 bBenefPers3 = [4800 4800 4800 4800 4800 4800 4800 850 920 585 90*-10004.95/100];
 [xPers3, benef] = linprog(fResPerso, contBenef, bBenefPers3, [], [], lb, ub, [], options);
 %
+
 % pasage de colonne à ligne
 xCom2 = transpose (xCom2);
 xCom3 = transpose (xCom3);
