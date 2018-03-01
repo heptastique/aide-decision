@@ -88,6 +88,8 @@ gainPercent = gain;
 for k = 1:1:2
     gainPercent(:,k) = gain(:,k)/gain(k,k)*100;
 end
-gainPercent(:,3) = gain(:,3)/gain(3,3)*100;
-gainPercent(:,4) = gain(:,4)/gain(4,4)*100;
-gainPercent(:,5) = gain(:,5)/(1000-gain(5,5))*100;
+gainPercent(:,3) = abs(gain(:,3)/gain(3,3)*100-200);
+gainPercent(:,4) = abs(gain(:,4)/gain(4,4)*100-200);
+for k = 1:1:length(gainPercent)
+    gainPercent(k,5) = abs((abs(gain(k,5)/gain(k,2)*50))-100);
+end
